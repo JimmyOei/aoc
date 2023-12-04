@@ -34,14 +34,16 @@ def parser(line):
 res = 0
 for line in lines:
     id, turns = parser(line)
-    found = False
+    g = 0
+    r = 0
+    b = 0
     for dic in turns:
         for key, value in dic.items():
-            if key == 'r' and value > 12 or key == 'g' and value > 13 or key == 'b' and value > 14:
-                found = True
-                break
-        if found:
-            break
-    if not found:
-        res += id
+            if key == 'g' and value > g:
+                g = value
+            elif key == 'r' and value > r:
+                r = value
+            elif key == 'b' and value > b:
+                b = value
+    res += (g*r*b)
 print(res)
