@@ -1,12 +1,8 @@
 input = open('./input_05.txt', 'r')
 lines = input.readlines()
 
-seeds = [int(num) for num in lines[0].split() if num.isdigit()]
-ranges = []
-for i in range(1, len(seeds), 2):  
-    ranges.append(seeds[i])
-    seeds[i] = None
-seeds = [x for x in seeds if x is not None]
+nums = [int(num) for num in lines[0].split() if num.isdigit()]
+ranges = [(nums[i], nums[i]+nums[i+1]) for i in range(0, len(nums), 2)]
 
 data = []
 l = 3
@@ -22,49 +18,22 @@ while l < len(lines):
     data.append(cat)
     l += 1
 
-print(data)
-
 for cat in data:
-    reset = [True]*len(seeds)
-    for mp in cat:
-        start = mp[1]
-        finish = mp[1]+mp[2]
-        for j, x in enumerate(seeds):
-            if reset[j]:
-                if start <= x:
-                    dif = finish - x
-                    if dif < ranges[j]:
-                        # add surplus as own interval
-                        surplus = ranges[j] - dif
-                        seeds.append(x + dif+1)
-                        ranges.append(surplus-1)
-                        reset.append(True)
-                    ranges[j] = dif
-                    startdif = x - start
-                    seeds[j] = mp[0]+startdif
-                    reset.append(False)
-                else:
-                    end = x+ranges[j]
-                    if end >= start:
-                        # add surplus as own interval
-                        surplus = end - start
-                        seeds.append(start)
-                        ranges.append(surplus-1)
-                        reset.append(True)
-                        ranges[j] -= surplus
-                    k = len(seeds)-1
-                    y = r=seeds[k]
-                    dif = finish - y
-                    if dif < ranges[k]:
-                        # add surplus as own interval
-                        surplus = ranges[k] - dif
-                        seeds.append(y + dif+1)
-                        ranges.append(surplus-1)
-                        reset.append(True)
-                    ranges[k] = dif
-                    startdif = y - start
-                    seeds[k] = mp[0]+startdif
-                    reset.append(False)
+    newranges = []
+    while len(ranges) > 0:
+        s, f = ranges.pop()
+        for a, b, c in cat:
+            os = max(s, b)
+            of = min(f, b + c)
+            if os < of:
+                newranges.append((os - b + a, of - b + a))
+                if os > s:
+                    ranges.append((s, os))
+                if of < f:
+                    ranges.append((of, f))
+                break
+        else:
+            newranges.append((s, f))
+    ranges = newranges
 
-print(seeds)
-print(min(seeds))
+print(min(ranges)[0])
