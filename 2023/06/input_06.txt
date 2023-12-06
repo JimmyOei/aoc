@@ -1,1 +1,2 @@
-Replace this with the input for day 06 and embrace yourself to get your brain cracked with these lines ;)
+Time:        51     92     68     90
+Distance:   222   2031   1126   1225
