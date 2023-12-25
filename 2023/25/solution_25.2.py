@@ -1,1 +1,1 @@
-Day 25 Part 2. Good Luck :)
+print('Merry Christmas!')
