@@ -3,3 +3,4 @@ My Advent of Code repo
 
 # Includes years
 - **2023**
+- **2024**

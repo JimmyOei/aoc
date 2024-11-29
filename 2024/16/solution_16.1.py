@@ -1,0 +1,1 @@
+input = open('./input_16.txt', 'r')

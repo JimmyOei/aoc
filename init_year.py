@@ -1,6 +1,6 @@
 import os
 
-year = "2023"
+year = input("Enter year: ")
 path = os.path.join(os.getcwd(), year)
 
 try:
@@ -19,10 +19,10 @@ for day in range(1, 26):
 
     solution1_file_path = os.path.join(day_folder_path, f"solution_{day_folder_name}.1.py")
     with open(solution1_file_path, "w") as f:  
-        f.write("Day " + day_folder_name + " Part 1. Good Luck :)")
+        f.write(f"input = open('./input_{day_folder_name}.txt', 'r')")
 
     solution2_file_path = os.path.join(day_folder_path, f"solution_{day_folder_name}.2.py")
     with open(solution2_file_path, "w") as f:  
-        f.write("Day " + day_folder_name + " Part 2. Good Luck :)")
+        f.write(f"input = open('./input_{day_folder_name}.txt', 'r')")
 
 print(f"\nInitiated '{year}', code away. :)\n")

@@ -1,0 +1,1 @@
+input = open('./input_24.txt', 'r')
