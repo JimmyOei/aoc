@@ -9,9 +9,6 @@ for line in lines:
     list1.append(int(nums[0]))
     list2.append(int(nums[1]))
 
-list1.sort()
-list2.sort()
-
 ans = 0
 for i in range(len(list1)):
     cnt = list2.count(list1[i])
