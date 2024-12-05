@@ -19,7 +19,6 @@ for update in updates:
       break
   if valid:
     ans += nums[len(nums) // 2]
-    print(nums, ans)
 print(ans)
       
       
