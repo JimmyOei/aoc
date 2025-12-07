@@ -26,51 +26,45 @@ vector<string> getInputLines() {
 }
 
 void part1(const vector<string>& lines) {
-  int res = 0;
-  vector<vector<int>> ranges;
+  long res = 0;
+  vector<vector<long>> ranges;
   
   // process ranges
-  int i = 0;
+   int i = 0;
   for (; i < lines.size(); ++i) {
-    cout << i << " " << line << endl;
-    if (line[i] == "") {
+    if (lines[i] == "") {
+      ++i;
       break;
     }
 
-    int dashFind = line.find('-');
-    long start = stol(line.substr(0, dashFind));
-    long end = stol(line.substr(dashFind+1));
+    int dashFind = lines[i].find('-');
+    long start = stol(lines[i].substr(0, dashFind));
+    long end = stol(lines[i].substr(dashFind+1));
+    ranges.push_back({start, end});
+  }
 
-    for (int j = 0; j < ranges.size(); ++j) {
-      if (start > ranges[j][1]) {
+  sort(ranges.begin(), ranges.end());
+
+  vector<vector<long>> merged;
+  for (const auto& range : ranges) {
+    if (merged.empty() || merged.back()[1] < range[0]) {
+      merged.push_back(range);
+    } else {
+      merged.back()[1] = max(merged.back()[1], range[1]);
+    }
+  }
+
+  for (; i < lines.size(); ++i) {
+    long num = stol(lines[i]);
+    for (int j = 0; j < merged.size(); ++j) {
+      if (num > merged[j][1]) {
         continue;
       }
 
-      if (start < ranges[j][0]) {
-        if (end >= ranges[j][0]) {
-          ranges[j][0] = start;
-          ranges[j][1] = max(ranges[j][1], end);
-        }
-        else {
-          ranges.insert(j, {start, end});
-        }
-        break;
+      if (num >= merged[j][0]) {
+        ++res;
       }
-
-      if (end <= ranges[j][1]) {
-        break;
-      }
-      
-      start = ranges[j][0];
-      while(j < ranges.size()-1 && end > ranges[j][1]) {
-        ranges.erase(ranges.begin()+j);
-      }
-      ranges[j][0] = start;
-      ranges[j][1] = max(ranges[j][1], end);
-    }
-
-    for (const auto& v : ranges) {
-      cout << v[0] << "-" << v[1] << endl;
+      break;
     }
   }
 
@@ -78,9 +72,38 @@ void part1(const vector<string>& lines) {
 }
 
 void part2(const vector<string>& lines) {
-  int res = 0;
+  long res = 0;
+  vector<vector<long>> ranges;
   
+  // process ranges
+   int i = 0;
+  for (; i < lines.size(); ++i) {
+    if (lines[i] == "") {
+      ++i;
+      break;
+    }
 
+    int dashFind = lines[i].find('-');
+    long start = stol(lines[i].substr(0, dashFind));
+    long end = stol(lines[i].substr(dashFind+1));
+    ranges.push_back({start, end});
+  }
+
+  sort(ranges.begin(), ranges.end());
+
+  vector<vector<long>> merged;
+  for (const auto& range : ranges) {
+    if (merged.empty() || merged.back()[1] < range[0]) {
+      merged.push_back(range);
+    } else {
+      merged.back()[1] = max(merged.back()[1], range[1]);
+    }
+  }
+
+  for (const auto& range : merged) {
+    res += (range[1]-range[0]) + 1;
+  }
+  
   cout << "Part 2: " << res << endl;
 }
 
